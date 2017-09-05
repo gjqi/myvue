@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			#ball {
+    height: 20px;
+    width: 20px;
+    background: brown;
+    border-radius: 50%;
+    position: absolute;
+    left: 10px;
+    top: 400px;
+}
+        
+#target {
+    height: 20px;
+    width: 20px;
+    background: skyblue;
+    position: absolute;
+    right: 300px;
+    top: 100px;
+    opacity: 0.6;
+}
+		</style>
+	</head>
+	<body>
+		<div id="ball"></div>
+		<div id="target"></div>
+	</body>
+	<script type="text/javascript">
+	 var ball = document.getElementById("ball");
+    //目标位置
+    var target = {
+        X : document.getElementById("target").offsetLeft,
+        Y : document.getElementById("target").offsetTop
+    }
+
+    //将起点定义为圆心
+    var centerPoint = {
+        X : ball.offsetLeft,
+        Y : ball.offsetTop
+    }
+
+    //"圆心"坐标
+    var x = centerPoint.X, y = centerPoint.Y;
+
+    //抛物线公式参数
+    var a = 0.0008; //曲率，若无要求，自己定义就行了
+    var b = ( target.Y - a*target.X*target.X ) / target.X;//根据目的坐标和a来计算b的值，因为起点位置已经被作圆心，而a是相对于这个圆心的，所以不能带入起点坐标进行计算
+
+    ball.t = setInterval( function() {
+        x++;//横坐标递增
+        ball.style.left = x + centerPoint.X + "px";
+        ball.style.top = a*x*x + b*x + centerPoint.Y + "px";
+        if ( ball.offsetLeft >= document.getElementById("target").offsetLeft ) {
+            clearInterval( ball.t );
+        }
+    }, 1);
+ 			
+	</script>
+</html>
